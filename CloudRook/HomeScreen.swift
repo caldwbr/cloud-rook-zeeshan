@@ -51,6 +51,10 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     func checkLoggedIn() {
         authUI = FUIAuth.defaultAuthUI()
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in

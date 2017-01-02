@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AFW-iI-lUc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AFW-iI-lUc">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -30,7 +30,7 @@
                                 <items>
                                     <barButtonItem style="plain" id="Bho-KM-Xg2">
                                         <view key="customView" contentMode="scaleToFill" id="22E-30-CvK">
-                                            <rect key="frame" x="20" y="6" width="33" height="33"/>
+                                            <rect key="frame" x="20" y="5.6666666666666679" width="33" height="33"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BRv-ZL-2Cj">
@@ -62,7 +62,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jsq-CT-3hz">
                                             <rect key="frame" x="236" y="7" width="93" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Mas Amigos"/>
+                                            <state key="normal" title="Amigos"/>
                                             <connections>
                                                 <action selector="masAmigosPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7sa-e9-jnL"/>
                                             </connections>
@@ -87,7 +87,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bm8-9C-MzL">
-                                                <rect key="frame" x="78" y="76" width="258" height="261"/>
+                                                <rect key="frame" x="78.333333333333314" y="76.333333333333343" width="257.33333333333337" height="260.33333333333337"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                         <integer key="value" value="10"/>
@@ -99,13 +99,13 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YP5-5T-OdT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="81" height="414"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="81.333333333333329" height="414"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uC1-82-23j">
-                                                                <rect key="frame" x="0.0" y="166" width="81" height="82"/>
+                                                                <rect key="frame" x="0.0" y="166.33333333333331" width="81.333333333333329" height="81.333333333333343"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RMJ-qw-grw">
-                                                                        <rect key="frame" x="24" y="25" width="33" height="33"/>
+                                                                        <rect key="frame" x="24" y="24.666666666666657" width="33" height="33"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="33" id="1so-jJ-H61"/>
                                                                             <constraint firstAttribute="width" constant="33" id="WCV-Mr-R6G"/>
@@ -135,13 +135,13 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bei-of-qGX">
-                                                        <rect key="frame" x="83" y="0.0" width="81" height="414"/>
+                                                        <rect key="frame" x="83.333333333333343" y="0.0" width="81.000000000000028" height="414"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AU3-Qf-KCO">
-                                                                <rect key="frame" x="0.0" y="150" width="81" height="114"/>
+                                                                <rect key="frame" x="0.0" y="150" width="81.000000000000014" height="114"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NBD-fA-1Qa">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="81" height="114"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="81.000000000000014" height="114"/>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                                 <integer key="value" value="5"/>
@@ -168,13 +168,13 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qCv-Ts-0AW">
-                                                        <rect key="frame" x="166" y="0.0" width="82" height="414"/>
+                                                        <rect key="frame" x="166.33333333333334" y="0.0" width="81.333333333333314" height="414"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bax-wa-O4K">
-                                                                <rect key="frame" x="0.0" y="0.0" width="82" height="81"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="81.333333333333314" height="81.333333333333343"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HRM-GX-Hcy">
-                                                                        <rect key="frame" x="25" y="24" width="33" height="33"/>
+                                                                        <rect key="frame" x="24.666666666666657" y="24" width="33" height="33"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="HRM-GX-Hcy" secondAttribute="height" multiplier="1:1" id="ETv-M1-4TF"/>
                                                                             <constraint firstAttribute="height" constant="33" id="hPZ-hW-ODM"/>
@@ -196,10 +196,10 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1q4-PO-Dew">
-                                                                <rect key="frame" x="0.0" y="333" width="82" height="81"/>
+                                                                <rect key="frame" x="0.0" y="332.66666666666674" width="81.333333333333314" height="81.333333333333314"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0S5-Qn-oaf">
-                                                                        <rect key="frame" x="25" y="24" width="33" height="33"/>
+                                                                        <rect key="frame" x="24.666666666666657" y="24.333333333333314" width="33" height="33"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="33" id="Ixa-9u-qcR"/>
                                                                             <constraint firstAttribute="height" constant="33" id="MVY-Wx-y4V"/>
@@ -221,10 +221,10 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ogz-qm-JCg">
-                                                                <rect key="frame" x="0.0" y="218" width="82" height="114"/>
+                                                                <rect key="frame" x="0.0" y="218.66666666666669" width="81.333333333333314" height="113"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G4e-9w-vKE">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="82" height="114"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="81.333333333333314" height="113"/>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                                 <integer key="value" value="5"/>
@@ -243,10 +243,10 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7u-sO-nBT">
-                                                                <rect key="frame" x="0.0" y="81" width="82" height="114"/>
+                                                                <rect key="frame" x="0.0" y="81.333333333333329" width="81.333333333333314" height="112.99999999999999"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CQf-dP-Skf">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="82" height="114"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="81.333333333333314" height="112.99999999999997"/>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                                 <integer key="value" value="5"/>
@@ -282,13 +282,13 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VPf-hY-Toq">
-                                                        <rect key="frame" x="250" y="0.0" width="81" height="414"/>
+                                                        <rect key="frame" x="249.66666666666669" y="0.0" width="81.000000000000057" height="414"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e1l-Py-U2v">
-                                                                <rect key="frame" x="0.0" y="150" width="81" height="114"/>
+                                                                <rect key="frame" x="0.0" y="150" width="81.000000000000028" height="114"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JzV-gl-lwU">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="81" height="114"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="81.000000000000028" height="114"/>
                                                                         <userDefinedRuntimeAttributes>
                                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                                 <integer key="value" value="5"/>
@@ -315,13 +315,13 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgY-Lt-8K9">
-                                                        <rect key="frame" x="333" y="0.0" width="81" height="414"/>
+                                                        <rect key="frame" x="332.66666666666674" y="0.0" width="81.333333333333314" height="414"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JbR-Jt-Ij4">
-                                                                <rect key="frame" x="0.0" y="166" width="81" height="82"/>
+                                                                <rect key="frame" x="0.0" y="166.33333333333331" width="81.333333333333314" height="81.333333333333343"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zR7-qB-BrA">
-                                                                        <rect key="frame" x="24" y="25" width="33" height="33"/>
+                                                                        <rect key="frame" x="24.333333333333314" y="24.666666666666657" width="33" height="33"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="zR7-qB-BrA" secondAttribute="height" multiplier="1:1" id="52E-ZH-Tjo"/>
                                                                             <constraint firstAttribute="height" constant="33" id="kZU-lN-fEz"/>
@@ -449,7 +449,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="61"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gm7-Ns-EJa" id="XAn-1Q-XDU">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8GI-5W-mCq">
@@ -513,7 +513,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="61"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yTj-Oh-aqv" id="zpp-9S-CvG">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="etn-jM-J6r">
@@ -564,6 +564,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XSP-ZH-N9H"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Zac-td-ese">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -585,7 +586,7 @@
                     <tabBarItem key="tabBarItem" title="Home" id="Omf-du-vwO"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="eHG-up-fbS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="eHG-up-fbS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -604,7 +605,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="k4r-zu-2zp" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Friends" id="gqz-oD-DFb"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9gD-G7-rMI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="9gD-G7-rMI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -630,7 +631,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="61"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ev9-tI-cK3" id="aRd-f3-ajB">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M0U-B0-Yyq">
@@ -680,7 +681,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZJR-2C-okK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Pending" id="Mu2-9h-1ig"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3vK-8c-8Rb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3vK-8c-8Rb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -706,7 +707,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="61"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OsU-I3-Br5" id="cQ3-t8-6rk">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ACx-0b-73c">
@@ -756,7 +757,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1tj-8f-FSF" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Friend Request" id="GM7-es-izs"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FrF-Ec-iCj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="FrF-Ec-iCj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
