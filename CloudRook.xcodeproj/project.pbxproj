@@ -1,0 +1,736 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0D285411E1A245D00AAACED /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D285401E1A245D00AAACED /* DataService.swift */; };
+		D0D285431E1A2A3600AAACED /* PendingFriendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D285421E1A2A3600AAACED /* PendingFriendList.swift */; };
+		D0D285451E1A2F5A00AAACED /* PendingFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D285441E1A2F5A00AAACED /* PendingFriendCell.swift */; };
+		D0D285471E1ADAF000AAACED /* FriendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D285461E1ADAF000AAACED /* FriendList.swift */; };
+		D0D285491E1ADDF800AAACED /* AllFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D285481E1ADDF800AAACED /* AllFriendCell.swift */; };
+		D0D2854B1E1AE42F00AAACED /* FriendRequestList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2854A1E1AE42F00AAACED /* FriendRequestList.swift */; };
+		D0D2854D1E1AE49200AAACED /* FriendRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2854C1E1AE49200AAACED /* FriendRequestCell.swift */; };
+		E4D6E7B2249E876EF5D2BF22 /* Pods_CloudRook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1C19B674894B4C19B081203 /* Pods_CloudRook.framework */; };
+		EB189F271E023DA0000C6898 /* CloudRookAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB189F261E023DA0000C6898 /* CloudRookAuthViewController.swift */; };
+		EB61B11E1E1974AB00463359 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B11D1E1974AB00463359 /* UserModel.swift */; };
+		EB61B1201E19A1B800463359 /* AllUserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B11F1E19A1B800463359 /* AllUserList.swift */; };
+		EB61B1221E19AD1900463359 /* AllUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B1211E19AD1900463359 /* AllUserCell.swift */; };
+		EB9756BC1E03368900D8DB9A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB9756BB1E03368900D8DB9A /* GoogleService-Info.plist */; };
+		EBAE2C9B1E01110C001AEEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAE2C9A1E01110C001AEEC3 /* AppDelegate.swift */; };
+		EBAE2C9D1E01110C001AEEC3 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAE2C9C1E01110C001AEEC3 /* HomeScreen.swift */; };
+		EBAE2CA01E01110C001AEEC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBAE2C9E1E01110C001AEEC3 /* Main.storyboard */; };
+		EBAE2CA31E01110C001AEEC3 /* CloudRook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EBAE2CA11E01110C001AEEC3 /* CloudRook.xcdatamodeld */; };
+		EBAE2CA51E01110C001AEEC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBAE2CA41E01110C001AEEC3 /* Assets.xcassets */; };
+		EBAE2CA81E01110C001AEEC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBAE2CA61E01110C001AEEC3 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		344FFBBE8D4A842473541906 /* Pods-CloudRook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudRook.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudRook/Pods-CloudRook.release.xcconfig"; sourceTree = "<group>"; };
+		41BBDAF40710EB7DCE5EBF0C /* Pods-CloudRook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudRook.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudRook/Pods-CloudRook.debug.xcconfig"; sourceTree = "<group>"; };
+		C1C19B674894B4C19B081203 /* Pods_CloudRook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudRook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0D285401E1A245D00AAACED /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		D0D285421E1A2A3600AAACED /* PendingFriendList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingFriendList.swift; sourceTree = "<group>"; };
+		D0D285441E1A2F5A00AAACED /* PendingFriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingFriendCell.swift; sourceTree = "<group>"; };
+		D0D285461E1ADAF000AAACED /* FriendList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendList.swift; sourceTree = "<group>"; };
+		D0D285481E1ADDF800AAACED /* AllFriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllFriendCell.swift; sourceTree = "<group>"; };
+		D0D2854A1E1AE42F00AAACED /* FriendRequestList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestList.swift; sourceTree = "<group>"; };
+		D0D2854C1E1AE49200AAACED /* FriendRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestCell.swift; sourceTree = "<group>"; };
+		EB1715FD1E1855DE00694B3E /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
+		EB189F261E023DA0000C6898 /* CloudRookAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRookAuthViewController.swift; sourceTree = "<group>"; };
+		EB61B11D1E1974AB00463359 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		EB61B11F1E19A1B800463359 /* AllUserList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllUserList.swift; sourceTree = "<group>"; };
+		EB61B1211E19AD1900463359 /* AllUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllUserCell.swift; sourceTree = "<group>"; };
+		EB9756BB1E03368900D8DB9A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EBAE2C971E01110C001AEEC3 /* CloudRook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudRook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBAE2C9A1E01110C001AEEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EBAE2C9C1E01110C001AEEC3 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		EBAE2C9F1E01110C001AEEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EBAE2CA21E01110C001AEEC3 /* CloudRook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloudRook.xcdatamodel; sourceTree = "<group>"; };
+		EBAE2CA41E01110C001AEEC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EBAE2CA71E01110C001AEEC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EBAE2CA91E01110C001AEEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBB2311D1E025A2C009EF073 /* CloudRook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CloudRook.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBAE2C941E01110C001AEEC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D6E7B2249E876EF5D2BF22 /* Pods_CloudRook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A509A418ADEB1B29C7A90A72 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				41BBDAF40710EB7DCE5EBF0C /* Pods-CloudRook.debug.xcconfig */,
+				344FFBBE8D4A842473541906 /* Pods-CloudRook.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B2061427D03E96372574B346 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB1715FD1E1855DE00694B3E /* libz.1.2.8.tbd */,
+				C1C19B674894B4C19B081203 /* Pods_CloudRook.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0D2853C1E1A200D00AAACED /* Important */ = {
+			isa = PBXGroup;
+			children = (
+				EBAE2C9A1E01110C001AEEC3 /* AppDelegate.swift */,
+				EBB2311D1E025A2C009EF073 /* CloudRook.entitlements */,
+				EBAE2CA41E01110C001AEEC3 /* Assets.xcassets */,
+				EBAE2CA61E01110C001AEEC3 /* LaunchScreen.storyboard */,
+				EBAE2CA91E01110C001AEEC3 /* Info.plist */,
+				EB9756BB1E03368900D8DB9A /* GoogleService-Info.plist */,
+				EBAE2CA11E01110C001AEEC3 /* CloudRook.xcdatamodeld */,
+			);
+			name = Important;
+			path = CloudRook;
+			sourceTree = "<group>";
+		};
+		D0D2853E1E1A205800AAACED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EB61B11D1E1974AB00463359 /* UserModel.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		D0D2853F1E1A206400AAACED /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EB61B1211E19AD1900463359 /* AllUserCell.swift */,
+				D0D285441E1A2F5A00AAACED /* PendingFriendCell.swift */,
+				D0D285481E1ADDF800AAACED /* AllFriendCell.swift */,
+				D0D2854C1E1AE49200AAACED /* FriendRequestCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		EBAE2C8E1E01110C001AEEC3 = {
+			isa = PBXGroup;
+			children = (
+				EBAE2C991E01110C001AEEC3 /* CloudRook */,
+				D0D2853C1E1A200D00AAACED /* Important */,
+				EBAE2C981E01110C001AEEC3 /* Products */,
+				A509A418ADEB1B29C7A90A72 /* Pods */,
+				B2061427D03E96372574B346 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EBAE2C981E01110C001AEEC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBAE2C971E01110C001AEEC3 /* CloudRook.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBAE2C991E01110C001AEEC3 /* CloudRook */ = {
+			isa = PBXGroup;
+			children = (
+				EBAE2C9E1E01110C001AEEC3 /* Main.storyboard */,
+				EB189F261E023DA0000C6898 /* CloudRookAuthViewController.swift */,
+				EBAE2C9C1E01110C001AEEC3 /* HomeScreen.swift */,
+				EB61B11F1E19A1B800463359 /* AllUserList.swift */,
+				D0D285421E1A2A3600AAACED /* PendingFriendList.swift */,
+				D0D285461E1ADAF000AAACED /* FriendList.swift */,
+				D0D2854A1E1AE42F00AAACED /* FriendRequestList.swift */,
+				D0D285401E1A245D00AAACED /* DataService.swift */,
+				D0D2853F1E1A206400AAACED /* Cells */,
+				D0D2853E1E1A205800AAACED /* Model */,
+			);
+			path = CloudRook;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EBAE2C961E01110C001AEEC3 /* CloudRook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBAE2CAC1E01110C001AEEC3 /* Build configuration list for PBXNativeTarget "CloudRook" */;
+			buildPhases = (
+				34048CA172B6BE8BF5932AF1 /* [CP] Check Pods Manifest.lock */,
+				EBAE2C931E01110C001AEEC3 /* Sources */,
+				EBAE2C941E01110C001AEEC3 /* Frameworks */,
+				EBAE2C951E01110C001AEEC3 /* Resources */,
+				D4110B50BC4CF04366AB043E /* [CP] Embed Pods Frameworks */,
+				A03FE04A543C50E5A2A63264 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CloudRook;
+			productName = CloudRook;
+			productReference = EBAE2C971E01110C001AEEC3 /* CloudRook.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBAE2C8F1E01110C001AEEC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0810;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Caldwell Contracting LLC";
+				TargetAttributes = {
+					EBAE2C961E01110C001AEEC3 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = ALC53N96R3;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = EBAE2C921E01110C001AEEC3 /* Build configuration list for PBXProject "CloudRook" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EBAE2C8E1E01110C001AEEC3;
+			productRefGroup = EBAE2C981E01110C001AEEC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBAE2C961E01110C001AEEC3 /* CloudRook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EBAE2C951E01110C001AEEC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBAE2CA81E01110C001AEEC3 /* LaunchScreen.storyboard in Resources */,
+				EBAE2CA51E01110C001AEEC3 /* Assets.xcassets in Resources */,
+				EB9756BC1E03368900D8DB9A /* GoogleService-Info.plist in Resources */,
+				EBAE2CA01E01110C001AEEC3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		34048CA172B6BE8BF5932AF1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A03FE04A543C50E5A2A63264 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudRook/Pods-CloudRook-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4110B50BC4CF04366AB043E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudRook/Pods-CloudRook-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBAE2C931E01110C001AEEC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0D2854B1E1AE42F00AAACED /* FriendRequestList.swift in Sources */,
+				D0D2854D1E1AE49200AAACED /* FriendRequestCell.swift in Sources */,
+				D0D285471E1ADAF000AAACED /* FriendList.swift in Sources */,
+				EB61B11E1E1974AB00463359 /* UserModel.swift in Sources */,
+				EB61B1201E19A1B800463359 /* AllUserList.swift in Sources */,
+				EBAE2CA31E01110C001AEEC3 /* CloudRook.xcdatamodeld in Sources */,
+				D0D285431E1A2A3600AAACED /* PendingFriendList.swift in Sources */,
+				EB61B1221E19AD1900463359 /* AllUserCell.swift in Sources */,
+				D0D285451E1A2F5A00AAACED /* PendingFriendCell.swift in Sources */,
+				EBAE2C9D1E01110C001AEEC3 /* HomeScreen.swift in Sources */,
+				EBAE2C9B1E01110C001AEEC3 /* AppDelegate.swift in Sources */,
+				EB189F271E023DA0000C6898 /* CloudRookAuthViewController.swift in Sources */,
+				D0D285411E1A245D00AAACED /* DataService.swift in Sources */,
+				D0D285491E1ADDF800AAACED /* AllFriendCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EBAE2C9E1E01110C001AEEC3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBAE2C9F1E01110C001AEEC3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EBAE2CA61E01110C001AEEC3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBAE2CA71E01110C001AEEC3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EBAE2CAA1E01110C001AEEC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EBAE2CAB1E01110C001AEEC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EBAE2CAD1E01110C001AEEC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41BBDAF40710EB7DCE5EBF0C /* Pods-CloudRook.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CloudRook/CloudRook.entitlements;
+				DEVELOPMENT_TEAM = ALC53N96R3;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseDatabase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseUI\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/TwitterCore\"",
+					"\"${PODS_ROOT}/Headers/Public/TwitterKit\"",
+				);
+				INFOPLIST_FILE = CloudRook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Bolts/Bolts.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FBSDKCoreKit/FBSDKCoreKit.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FBSDKLoginKit/FBSDKLoginKit.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMOAuth2/GTMOAuth2.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/SDWebImage/SDWebImage.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseDatabase\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseStorage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseUI\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TwitterCore\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TwitterKit\"",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accounts\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"Bolts\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"Fabric\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseAuthUI\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseDatabaseUI\"",
+					"-framework",
+					"\"FirebaseFacebookAuthUI\"",
+					"-framework",
+					"\"FirebaseGoogleAuthUI\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"FirebaseStorageUI\"",
+					"-framework",
+					"\"FirebaseTwitterAuthUI\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMOAuth2\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppUtilities\"",
+					"-framework",
+					"\"GoogleInterchangeUtilities\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleSymbolUtilities\"",
+					"-framework",
+					"\"GoogleToolboxForMac\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Social\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TwitterCore\"",
+					"-framework",
+					"\"TwitterKit\"",
+					"-framework",
+					"\"UIKit\"",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudrook.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EBAE2CAE1E01110C001AEEC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 344FFBBE8D4A842473541906 /* Pods-CloudRook.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CloudRook/CloudRook.entitlements;
+				DEVELOPMENT_TEAM = ALC53N96R3;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseDatabase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseUI\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/TwitterCore\"",
+					"\"${PODS_ROOT}/Headers/Public/TwitterKit\"",
+				);
+				INFOPLIST_FILE = CloudRook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Bolts/Bolts.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FBSDKCoreKit/FBSDKCoreKit.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FBSDKLoginKit/FBSDKLoginKit.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMOAuth2/GTMOAuth2.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMSessionFetcher/GTMSessionFetcher.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework/Headers\"",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/SDWebImage/SDWebImage.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseDatabase\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseStorage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseUI\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TwitterCore\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TwitterKit\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudrook.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EBAE2C921E01110C001AEEC3 /* Build configuration list for PBXProject "CloudRook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBAE2CAA1E01110C001AEEC3 /* Debug */,
+				EBAE2CAB1E01110C001AEEC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBAE2CAC1E01110C001AEEC3 /* Build configuration list for PBXNativeTarget "CloudRook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBAE2CAD1E01110C001AEEC3 /* Debug */,
+				EBAE2CAE1E01110C001AEEC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EBAE2CA11E01110C001AEEC3 /* CloudRook.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EBAE2CA21E01110C001AEEC3 /* CloudRook.xcdatamodel */,
+			);
+			currentVersion = EBAE2CA21E01110C001AEEC3 /* CloudRook.xcdatamodel */;
+			path = CloudRook.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = EBAE2C8F1E01110C001AEEC3 /* Project object */;
+}
