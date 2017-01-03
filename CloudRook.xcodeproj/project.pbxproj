@@ -19,6 +19,8 @@
 		EB61B11E1E1974AB00463359 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B11D1E1974AB00463359 /* UserModel.swift */; };
 		EB61B1201E19A1B800463359 /* AllUserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B11F1E19A1B800463359 /* AllUserList.swift */; };
 		EB61B1221E19AD1900463359 /* AllUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB61B1211E19AD1900463359 /* AllUserCell.swift */; };
+		EB69B4FB1E1B2CA900D1DBB2 /* DeckOfCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69B4FA1E1B2CA900D1DBB2 /* DeckOfCards.swift */; };
+		EB69B4FD1E1B3E8500D1DBB2 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69B4FC1E1B3E8500D1DBB2 /* Game.swift */; };
 		EB9756BC1E03368900D8DB9A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB9756BB1E03368900D8DB9A /* GoogleService-Info.plist */; };
 		EBAE2C9B1E01110C001AEEC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAE2C9A1E01110C001AEEC3 /* AppDelegate.swift */; };
 		EBAE2C9D1E01110C001AEEC3 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAE2C9C1E01110C001AEEC3 /* HomeScreen.swift */; };
@@ -44,6 +46,8 @@
 		EB61B11D1E1974AB00463359 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		EB61B11F1E19A1B800463359 /* AllUserList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllUserList.swift; sourceTree = "<group>"; };
 		EB61B1211E19AD1900463359 /* AllUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllUserCell.swift; sourceTree = "<group>"; };
+		EB69B4FA1E1B2CA900D1DBB2 /* DeckOfCards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckOfCards.swift; sourceTree = "<group>"; };
+		EB69B4FC1E1B3E8500D1DBB2 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EB9756BB1E03368900D8DB9A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EBAE2C971E01110C001AEEC3 /* CloudRook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudRook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBAE2C9A1E01110C001AEEC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 				D0D285461E1ADAF000AAACED /* FriendList.swift */,
 				D0D2854A1E1AE42F00AAACED /* FriendRequestList.swift */,
 				D0D285401E1A245D00AAACED /* DataService.swift */,
+				EB69B4FA1E1B2CA900D1DBB2 /* DeckOfCards.swift */,
+				EB69B4FC1E1B3E8500D1DBB2 /* Game.swift */,
 				D0D2853F1E1A206400AAACED /* Cells */,
 				D0D2853E1E1A205800AAACED /* Model */,
 			);
@@ -297,10 +303,12 @@
 				EB61B1221E19AD1900463359 /* AllUserCell.swift in Sources */,
 				D0D285451E1A2F5A00AAACED /* PendingFriendCell.swift in Sources */,
 				EBAE2C9D1E01110C001AEEC3 /* HomeScreen.swift in Sources */,
+				EB69B4FB1E1B2CA900D1DBB2 /* DeckOfCards.swift in Sources */,
 				EBAE2C9B1E01110C001AEEC3 /* AppDelegate.swift in Sources */,
 				EB189F271E023DA0000C6898 /* CloudRookAuthViewController.swift in Sources */,
 				D0D285411E1A245D00AAACED /* DataService.swift in Sources */,
 				D0D285491E1ADDF800AAACED /* AllFriendCell.swift in Sources */,
+				EB69B4FD1E1B3E8500D1DBB2 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
