@@ -27,6 +27,9 @@ class AllUserList: UITableViewController {
         self.tabBarController?.tabBar.isHidden = false;
         self.navigationController?.hidesBottomBarWhenPushed = false
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.isTranslucent = false;
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+
     }
     
     override func didReceiveMemoryWarning() {
