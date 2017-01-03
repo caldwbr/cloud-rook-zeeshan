@@ -52,7 +52,9 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
+         //self.navigationController?.navigationBar.isHidden = true
+         //self.navigationController?.navigationBar.isTranslucent = false;
+           self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func checkLoggedIn() {
@@ -154,16 +156,24 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
 //
 //        }
         
+//        if segue.identifier == "userList"{
+//            let userList = segue.destination as! AllUserList
+//            userList.users = self.users
+//        }
+//
         if segue.identifier == "userList"{
-            let userList = segue.destination as! AllUserList
-            userList.users = self.users
+            let barViewControllers = segue.destination as! UITabBarController
+            let friendList = barViewControllers.viewControllers![0] as! AllUserList
+            friendList.users = self.users
         }
 
-//        if segue.identifier == "friendList"{
+//        if segue.identifier == "userList"{
 //            let barViewControllers = segue.destination as! UITabBarController
-//            let friendList = barViewControllers.viewControllers![0] as! friendListTableViewController
-//            friendList.friends = self.users
+//            let navBar = barViewControllers.viewControllers![0] as! UINavigationController
+//            let userList = navBar.topViewController as? AllUserList
+//            userList?.users = self.users
 //        }
+        
     }
     
     @IBAction func logOutPressed(_ sender: UIButton) {
