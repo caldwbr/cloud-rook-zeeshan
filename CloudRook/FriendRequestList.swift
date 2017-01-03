@@ -25,8 +25,8 @@ class FriendRequestList: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(FriendRequestList.requestNotification), name: notificationName, object: nil)
+        self.tabBarController?.navigationItem.title = "Friend Requests"
         self.loadData()
-        
     }
     
     

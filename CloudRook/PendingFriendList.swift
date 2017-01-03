@@ -23,8 +23,11 @@ class PendingFriendList: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(PendingFriendList.pendingNotification), name: notificationName, object: nil)
         self.loadData()
+        self.tabBarController?.navigationItem.title = "Pending"
+
         
     }
     

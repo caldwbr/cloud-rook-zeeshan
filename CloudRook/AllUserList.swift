@@ -20,16 +20,40 @@ class AllUserList: UITableViewController {
         super.viewDidLoad()
         print("Total Users")
         print(self.users.count)
-
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false;
-        self.navigationController?.hidesBottomBarWhenPushed = false
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.isTranslucent = false;
+        super.viewWillAppear(animated)
+        
+//        self.tabBarController?.tabBar.isHidden = false;
+//        self.navigationController?.hidesBottomBarWhenPushed = false
+//        self.navigationController?.navigationBar.isHidden = false
+//        self.navigationController?.navigationBar.isTranslucent = false;
+        
+        
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.tabBarController?.navigationItem.title = "All Users"
+        
+        
+        
+        //navigationController?.navigationItem.title = "All1"
+        //navigationController?.navigationBar.topItem?.title = "All2"
+//       navigationItem.title = "YourTitle"
+//       navigationController?.title = "All4"
+        
+        
 
+//        let yourBackImage = UIImage(named: "Green9")
+//        self.navigationController?.navigationBar.backIndicatorImage = yourBackImage
+//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = yourBackImage
+        
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+       // self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

@@ -52,10 +52,9 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.navigationBar.isTranslucent = false;
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-
+         //self.navigationController?.navigationBar.isHidden = true
+         //self.navigationController?.navigationBar.isTranslucent = false;
+           self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func checkLoggedIn() {
@@ -161,13 +160,13 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
 //            let userList = segue.destination as! AllUserList
 //            userList.users = self.users
 //        }
-
+//
         if segue.identifier == "userList"{
             let barViewControllers = segue.destination as! UITabBarController
             let friendList = barViewControllers.viewControllers![0] as! AllUserList
             friendList.users = self.users
         }
-//
+
 //        if segue.identifier == "userList"{
 //            let barViewControllers = segue.destination as! UITabBarController
 //            let navBar = barViewControllers.viewControllers![0] as! UINavigationController
