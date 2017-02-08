@@ -52,10 +52,15 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+
          //self.navigationController?.navigationBar.isHidden = true
          //self.navigationController?.navigationBar.isTranslucent = false;
-           self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
     }
+    
+    
     
     func checkLoggedIn() {
         authUI = FUIAuth.defaultAuthUI()
