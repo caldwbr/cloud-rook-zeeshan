@@ -12,9 +12,12 @@ import AlamofireImage
 
 class AllFriendCell: UITableViewCell {
     
+        @IBOutlet weak var inviteButton: UIButton!
         @IBOutlet weak var userImage: UIImageView!
         @IBOutlet weak var userName: UILabel!
-        
+        @IBOutlet weak var onlineIcon: UIView!
+        var inviteCallback : (()->())!
+    
         override func awakeFromNib() {
             super.awakeFromNib()
             // Initialization code
@@ -22,12 +25,23 @@ class AllFriendCell: UITableViewCell {
         
         override func setSelected(_ selected: Bool, animated: Bool) {
             super.setSelected(selected, animated: animated)
-            
-            // Configure the view for the selected state
+             self.onlineIcon.backgroundColor = self.onlineIcon.backgroundColor
         }
         
-        func configureCell(user:User){
+    @IBAction func inviteButtonTapped(_ sender: UIButton) {
+                    self.inviteCallback()
+    }
+    
+    
+    func configureCell(user:User){
             self.userName.text = user.name
+            if(!DataService.ds.getOnlineUsers.contains(user.id!)){
+               print("User is Not Online")
+               self.onlineIcon.backgroundColor = UIColor.white
+            }else{
+                
+                self.onlineIcon.backgroundColor = UIColor.green
+            }
             if let url = user.picUrl{
                 let stringUrl = String(describing: url)
                 Alamofire.request(stringUrl).responseImage { response in
@@ -42,5 +56,9 @@ class AllFriendCell: UITableViewCell {
             else{
                 self.userImage.image = UIImage(named: "Black1")
             }
-        }
+
+    }
+    
+
+    
 }

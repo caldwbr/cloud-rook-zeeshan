@@ -32,7 +32,8 @@ class AllUserList: UITableViewController {
         
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        self.tabBarController?.navigationItem.title = "All Users"
+         self.tabBarController?.tabBar.isHidden = false
+         self.tabBarController?.navigationItem.title = "Users"
         
         
         
@@ -63,7 +64,7 @@ class AllUserList: UITableViewController {
     
     
     @IBAction func backTapped(_ sender: Any) {
-        navigationController?.popViewController(animated:true)
+        _ = navigationController?.popViewController(animated:true)
         //self.dismiss(animated: true, completion: nil)
     }
     

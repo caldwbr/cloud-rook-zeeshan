@@ -16,6 +16,9 @@ class FriendList: UITableViewController {
     
     let ds = DataService.ds
     var friends = [User]()
+    
+    @IBOutlet weak var totalInvited: UIBarButtonItem!
+    
     let notificationName = Notification.Name("friendNotification")
 
     override func viewDidLoad() {
@@ -36,6 +39,29 @@ class FriendList: UITableViewController {
     }
 
     
+    
+    @IBAction func totalInvitedAction(_ sender: UIBarButtonItem) {
+        
+        if(self.ds.getInvitedUser.count < 3){
+            let message = "You must add 3 Users to Invite"
+            self.showInvitationAlert(message:message)
+        }
+        else{
+            self.ds.sendGameInvitation(){response in
+                if(response == true){
+                    self.ds.removeInvitedUser()
+                    let message = "We have sent game invitations. Please go to Main screen to play"
+                    self.showInvitationAlert(message:message)
+                }else{
+                    let message = "An Error occured. Please try again"
+                    self.showInvitationAlert(message:message)
+                }
+
+            }
+        }
+    }
+    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: notificationName, object: nil);
@@ -52,6 +78,14 @@ class FriendList: UITableViewController {
         self.friends.removeAll()
         self.friends = self.ds.getFriends
         self.tableView.reloadData()
+        if(self.ds.getInvitedUser.count > 0){
+            self.totalInvited.title = "Send"
+            //self.cancelInvite.title = "Cancel"
+        }else{
+            self.totalInvited.title = ""
+            //self.cancelInvite.title = ""
+        }
+        
     }
     
     
@@ -78,11 +112,70 @@ class FriendList: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allFriendCell", for: indexPath) as! AllFriendCell
-        cell.configureCell(user: self.friends[indexPath.row])
+        let user = self.friends[indexPath.row]
+        cell.configureCell(user: user)
+        cell.inviteCallback = { response in
+            if(self.ds.getInvitedUser.count < 3){
+                if(self.ds.invitedUserIds.contains(user.id!)){
+                    self.ds.removeInvitedUser(userId: user.id!)
+                    self.ds.invitedUserIds = self.ds.invitedUserIds.filter{$0 != user.id!}
+                    
+                    if(self.ds.getInvitedUser.count > 0){
+                        self.totalInvited.title = "Send"
+                        //self.cancelInvite.title = "Cancel"
+                    }else{
+                        self.totalInvited.title = ""
+                        //self.cancelInvite.title = ""
+                    }
+                    cell.inviteButton.layer.borderWidth = 0
+                    cell.inviteButton.layer.borderColor = UIColor.clear.cgColor
+                    print("Two : \(self.ds.getInvitedUser.count )")
+
+                }else{
+                    
+                    self.ds.addInvitedUser(user: user)
+                    self.ds.invitedUserIds.append(user.id!)
+                    
+                    self.totalInvited.title = "Send"
+                    //self.cancelInvite.title = "Cancel"
+                    
+                    cell.inviteButton.layer.borderWidth = 2
+                    cell.inviteButton.layer.borderColor = UIColor.orange.cgColor
+                    print("One : \(self.ds.getInvitedUser.count )")
+
+                }
+
+            }
+            else if(self.ds.getInvitedUser.count ==  3 && self.ds.invitedUserIds.contains(user.id!)){
+                self.ds.removeInvitedUser(userId: user.id!)
+                self.ds.invitedUserIds = self.ds.invitedUserIds.filter{$0 != user.id!}
+                
+                if(self.ds.getInvitedUser.count > 0){
+                    self.totalInvited.title = "Send"
+                    //self.cancelInvite.title = "Cancel"
+                }else{
+                    self.totalInvited.title = ""
+                    //self.cancelInvite.title = ""
+                }
+                cell.inviteButton.layer.borderWidth = 0
+                cell.inviteButton.layer.borderColor = UIColor.clear.cgColor
+                print("Three : \(self.ds.getInvitedUser.count )")
+            }
+            else{
+                let message = "You have already added 3 Users to Invite . To Invite other this user, please uncheck other user ."
+                self.showInvitationAlert(message:message)
+            }
+        }
+        
+        if(DataService.ds.getInvitedUser.count == 0){
+            self.totalInvited.title = ""
+            cell.inviteButton.layer.borderWidth = 0
+            cell.inviteButton.layer.borderColor = UIColor.clear.cgColor
+        }
         return cell
     }
     
-    
+
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -108,6 +201,20 @@ class FriendList: UITableViewController {
     }
     
     
+    
+    func showInvitationAlert(message:String){
+        let alert = UIAlertController(title: "Invite", message: message, preferredStyle:UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+            response in
+            self.tableView.reloadData()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
     func removeFriend(userId:String , friend:User){
         self.ds.removeFriendFromFriendList(userId: userId, friend: friend, completion:{
             response in
@@ -117,4 +224,8 @@ class FriendList: UITableViewController {
             }
         })
     }
+    
+    
+
+    
 }

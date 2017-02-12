@@ -18,7 +18,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftyJSON
 
-class HomeScreen: UIViewController, FUIAuthDelegate {
+class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     
     var googleStuff = ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
     
@@ -27,7 +27,9 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     var authUI: FUIAuth?
 
     let ds = DataService.ds
-    
+    let notificationName  =   Notification.Name("gameUserOnlineNotification")
+    var selectInvite = false
+    var imageDownloaded = false
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var player1Card: UIImageView!
     @IBOutlet weak var player2Card: UIImageView!
@@ -38,6 +40,10 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     @IBOutlet weak var player3ProfilePic: UIImageView!
     @IBOutlet weak var player4ProfilePic: UIImageView!
     @IBOutlet weak var cardTable: UIImageView!
+    @IBOutlet weak var leaveGame: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,18 +52,194 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
             print("Download Friends")
             self.downloadFriendsList()
             self.ds.loadAllLists()
+            self.ds.checkIfConnected()
+            self.ds.checkInvitations()
+            self.ds.createGameUser()
         }
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    func invitationAccepted(game : GameInvite){
+        
+        var usersId = [String]()
+        usersId.append((game.owner?.id!)!)
+        usersId.append((game.playerOne?.id!)!)
+        usersId.append((game.playerTwo?.id!)!)
+        usersId.append((game.playerThree?.id!)!)
+        
+        self.ds.acceptGameInvitation(usersId:usersId , game:game){
+            response in
+            self.checkGame()
+            self.selectInvite = false
+        }
+    }
+    
+    @IBAction func leaveGame(_ sender: UIButton) {
+        self.ds.leaveGame(){
+            response in
+            self.leaveGame.setTitle("",for: .normal)
+            self.leaveGame.isEnabled = false
+            self.imageDownloaded = false
+            self.checkGame()
+        }
 
-         //self.navigationController?.navigationBar.isHidden = true
-         //self.navigationController?.navigationBar.isTranslucent = false;
+    }
+    
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: notificationName, object: nil);
+    }
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if(FIRAuth.auth()?.currentUser != nil){
+            self.ds.createGameUser()
+        }
+        self.checkGame()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.checkGame), name: notificationName, object: nil)
+        
+        if(self.ds.gameIsOn == true){
+            self.leaveGame.isEnabled = true
+            self.leaveGame.setTitle("Leave Game",for: .normal)
+        }
+        else{
+            self.leaveGame.isEnabled = false
+            self.leaveGame.setTitle("",for: .normal)
+
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    func onlineChecker(){
+      if(self.ds.getCurrentGameUser.count != 0){
+        let userOne   = self.ds.getCurrentGameUser[0].id
+        let userTwo   = self.ds.getCurrentGameUser[1].id
+        let userThree = self.ds.getCurrentGameUser[2].id
+        let userFour  = self.ds.getCurrentGameUser[3].id
+        
+        if(self.ds.getOnlineUsers.contains(userOne!)){
+            self.player1ProfilePic.layer.borderWidth = 2
+            self.player1ProfilePic.layer.borderColor = UIColor.green.cgColor
+        }else{
+            self.player1ProfilePic.layer.borderWidth = 0
+            self.player1ProfilePic.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+        
+        if(self.ds.getOnlineUsers.contains(userTwo!)){
+            self.player2ProfilePic.layer.borderWidth = 2
+            self.player2ProfilePic.layer.borderColor = UIColor.green.cgColor
+        }else{
+            self.player2ProfilePic.layer.borderWidth = 0
+            self.player2ProfilePic.layer.borderColor = UIColor.clear.cgColor
+
+        }
+        
+        
+        if(self.ds.getOnlineUsers.contains(userThree!)){
+            self.player3ProfilePic.layer.borderWidth = 2
+            self.player3ProfilePic.layer.borderColor = UIColor.green.cgColor
+        }else{
+            self.player3ProfilePic.layer.borderWidth = 0
+            self.player3ProfilePic.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+        
+        if(self.ds.getOnlineUsers.contains(userFour!)){
+            self.player4ProfilePic.layer.borderWidth = 2
+            self.player4ProfilePic.layer.borderColor = UIColor.green.cgColor
+        }else{
+            self.player4ProfilePic.layer.borderWidth = 0
+            self.player4ProfilePic.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+      }
+      else{
+            self.player1ProfilePic.layer.borderWidth = 0
+            self.player1ProfilePic.layer.borderColor = UIColor.clear.cgColor
+            self.player2ProfilePic.layer.borderWidth = 0
+            self.player2ProfilePic.layer.borderColor = UIColor.clear.cgColor
+            self.player3ProfilePic.layer.borderWidth = 0
+            self.player3ProfilePic.layer.borderColor = UIColor.clear.cgColor
+            self.player4ProfilePic.layer.borderWidth = 0
+            self.player4ProfilePic.layer.borderColor = UIColor.clear.cgColor
+        }
+    }
+    
+    func checkGame(){
+
+        print("Check Game")
+        print(self.ds.getCurrentGameUser.count)
+
+        if(self.ds.gameIsOn == true && self.ds.getCurrentGameUser.count != 0){
+            self.player1ProfilePic.image = UIImage(named: "inviteAPlayer")
+            self.player2ProfilePic.image = UIImage(named: "inviteAPlayer")
+            self.player3ProfilePic.image = UIImage(named: "inviteAPlayer")
+            self.player4ProfilePic.image = UIImage(named: "inviteAPlayer")
+            self.onlineChecker()
+            
+            if let url = self.ds.getCurrentGameUser[0].picUrl{
+            self.ds.imageDownload(url: url){
+                response in
+                self.player1ProfilePic.image =  response
+              }
+            }
+            
+            if let url = self.ds.getCurrentGameUser[1].picUrl{
+                self.ds.imageDownload(url: url){
+                    response in
+                    self.player2ProfilePic.image =  response
+                }
+            }
+            
+            if let url = self.ds.getCurrentGameUser[2].picUrl{
+                self.ds.imageDownload(url: url){
+                    response in
+                    self.player3ProfilePic.image =  response
+                }
+            }
+            
+            
+            
+            if let url = self.ds.getCurrentGameUser[3].picUrl{
+                self.ds.imageDownload(url: url){
+                    response in
+                    self.player4ProfilePic.image =  response
+                }
+            }
+            
+        }
+        else{
+            self.onlineChecker()
+            if(FIRAuth.auth()?.currentUser != nil && self.imageDownloaded == false){
+                let user = FIRAuth.auth()?.currentUser
+                if let url = user?.photoURL{
+                    print("Reset Images")
+                    print(url)
+                    self.ds.imageDownload(url: url as NSURL){
+                        response in
+                        self.player1ProfilePic.image =  response
+                        self.imageDownloaded = true
+                    }
+                }
+                self.player2ProfilePic.image = UIImage(named: "inviteAPlayer")
+                self.player3ProfilePic.image = UIImage(named: "inviteAPlayer")
+                self.player4ProfilePic.image = UIImage(named: "inviteAPlayer")
+            
+            }
+            
+
+        }
     }
     
     
@@ -71,8 +253,8 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
                 if user?.photoURL == nil {
                     self.profilePic.image = UIImage(named: "CloudRookSignIn")
                 }else{
-                        DispatchQueue.global(qos: .default).async(execute: { 
-                            var imageUrl = NSData(contentsOf: (user?.photoURL)!)
+                        DispatchQueue.global(qos: .default).async(execute: {
+                            let imageUrl = NSData(contentsOf: (user?.photoURL)!)
                             if let data = imageUrl {
                                 DispatchQueue.main.async {
                                     self.profilePic.image = UIImage(data: data as Data)
@@ -82,13 +264,7 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
                                     self.player4ProfilePic.image = UIImage(named: "inviteAPlayer")
                                     self.player1Card.image = UIImage(named: "Yellow1")
                                     self.player2Card.image = UIImage(named: "TheRook")
-                                    //self.player3Card.image = UIImage(named: "Yellow8")
-                                    //self.player4Card.image = UIImage(named: "Green14")
                                     self.cardTable.image = UIImage(named: "cardTable")
-                                    
-                                    //print("This is the imageURL: " + String(describing: user?.photoURL))
-                                
-                                    
                                 }
                             }
                         })
@@ -105,8 +281,7 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     
     
     func login() {
-        //let googleProvider = FUIGoogleAuth(scopes: googleStuff)
-        //let facebookProvider = FUIFacebookAuth(permissions: ["public_profile"])
+
         if let authUI = authUI {
         authUI.delegate = self
         let providers: [FUIAuthProvider] = [
@@ -114,10 +289,6 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
         FUIFacebookAuth(),
         ]
         authUI.providers = providers
-        //authUI?.providers = [googleProvider, facebookProvider]
-        
-        
-       
         let authViewController = CloudRookAuthViewController(authUI: authUI)
         let navc = UINavigationController(rootViewController: authViewController)
         self.present(navc, animated: true, completion: nil)
@@ -130,63 +301,70 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
         if error != nil {
-            //Problem signing in
             login()
         }else {
             self.downloadFriendsList()
             self.ds.loadAllLists()
+            self.ds.checkInvitations()
             if let unwrappedUrl = user?.photoURL {
-                self.ref.child("users").child((user?.uid)!).updateChildValues(["username": user?.displayName, "pic": String(describing: unwrappedUrl) as Any, "email": user?.email])
+                self.ref.child("users").child((user?.uid)!).updateChildValues(["username": (user?.displayName!)!, "pic": String(describing: unwrappedUrl) as Any, "email": (user?.email!)!]){
+                    response in
+                    self.ds.checkIfConnected()
+                }
             }else {
-                self.ref.child("users").child((user?.uid)!).updateChildValues(["username": user?.displayName, "pic": "nil", "email": user?.email])
+                self.ref.child("users").child((user?.uid)!).updateChildValues(["username": (user?.displayName!)!, "pic": "nil", "email": (user?.email!)!]){
+                    response in
+                    self.ds.checkIfConnected()
+                }
             }
+            
         }
     }
 
     @IBAction func masAmigosPressed(_ sender: Any) {
         self.performSegue(withIdentifier: "userList", sender: self)
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "friendListVC")
-//        self.present(vc, animated: true, completion: nil)
     }
     
+    
+    
+    @IBAction func gameInvitationPressed(_ sender: UIBarButtonItem) {
+                self.selectInvite = true
+                self.performSegue(withIdentifier: "inviteList", sender: self)
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "friendList"{
-//            if let navBar = segue.destination as? UINavigationController{
-//                let friendList = navBar.topViewController as? friendListTableViewController
-//                friendList?.friends = self.users
-//
-//                friendList?.hidesBottomBarWhenPushed = false
-//            }
-//
-//        }
-        
-//        if segue.identifier == "userList"{
-//            let userList = segue.destination as! AllUserList
-//            userList.users = self.users
-//        }
-//
-        if segue.identifier == "userList"{
-            let barViewControllers = segue.destination as! UITabBarController
-            let friendList = barViewControllers.viewControllers![0] as! AllUserList
-            friendList.users = self.users
+        if segue.identifier == "inviteList"
+        {
+            let gameInvitationVC = segue.destination  as! GameInviteList
+            gameInvitationVC.delegate = self
         }
-
-//        if segue.identifier == "userList"{
-//            let barViewControllers = segue.destination as! UITabBarController
-//            let navBar = barViewControllers.viewControllers![0] as! UINavigationController
-//            let userList = navBar.topViewController as? AllUserList
-//            userList?.users = self.users
-//        }
         
+        
+        if segue.identifier == "userList"{
+            let userList = segue.destination as! AllUserList
+            userList.users = self.ds.users
+        }
     }
     
     @IBAction func logOutPressed(_ sender: UIButton) {
-        do {
-            try authUI?.signOut()
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
+        let user = FIRAuth.auth()?.currentUser?.uid
+        
+        self.ds.gameIsOn = false
+        self.ds.removeCurrentGameUser()
+        self.ds.setGamekey()
+        self.ds.users.removeAll()
+        
+        
+        self.ref.child("users").child(user! + "/connected").setValue(false){
+            response in
+            do {
+                try self.authUI?.signOut()
+            } catch let signOutError as NSError {
+                print("Error signing out: %@", signOutError)
+            }
         }
+
         
     }
     
@@ -195,19 +373,12 @@ class HomeScreen: UIViewController, FUIAuthDelegate {
     func downloadFriendsList(){
         let ref2 = FIRDatabase.database().reference()
         ref2.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot]{
-                print("Snapshot Count")
-                print(snapshots.count)
                 for snap in snapshots
                 {
-                    //print(snap.value)
                     let user = User(userObject: JSON(snap.value!) , id:snap.key)
-                    self.users.append(user)
-
+                    self.ds.users.append(user)
                 }
-                
-                print(self.users.count)
             }
 
         }) { (error) in
