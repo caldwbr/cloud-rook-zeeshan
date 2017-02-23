@@ -20,6 +20,7 @@ pod 'Firebase/Storage'
 pod 'GoogleSignIn'
 
 pod 'FBSDKLoginKit'
+pod 'OneSignal'
 
 pod 'Fabric'
 pod 'AlamofireImage', '~> 3.1'

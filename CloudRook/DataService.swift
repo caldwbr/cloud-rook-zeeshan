@@ -12,6 +12,7 @@ import Firebase
 import FirebaseAuth
 import Alamofire
 import SwiftyJSON
+import OneSignal
 
 
 
@@ -23,19 +24,20 @@ class DataService :NSObject {
     var gameUser = User()
     
     var users = [User]()
-    private var allFriends = [User]()
-    private var pendingFriends = [User]()
-    private var friendRequests = [User]()
-    private var onlineUsers = [String]()
+    private var allFriends = [User]()       // Friends of current user
+    private var pendingFriends = [User]()   // Pending friends sent by current user
+    private var friendRequests = [User]()   // Friend request received by current user
+    private var onlineUsers = [String]()    // All online users in the Database
     
-    private var gameKey = String()
-    var invitedUserIds = [String]()
-    var gameIsOn = false
+    private var gameKey = String()          // Acurrent game id in the process
+    var invitedUserIds = [String]()         // Invited users ids that will be invited
+    var gameIsOn = false                    // Check for if a game is in process or not
 
-    private var invitedUser = [User]()
-    private var currentGameUser = [User]()
-    private var gameInvitations = [GameInvite]()
+    private var invitedUser = [User]() // All users for game invitation. Removed once the invite is sent
     
+    private var currentGameUser = [User]()  // Current game users
+    private var gameInvitations = [GameInvite]() // Game invites sent to you
+
 
     
     func createGameUser(){
@@ -99,10 +101,10 @@ class DataService :NSObject {
         connectedRef.observe(.value, with: { snapshot in
             if let connected = snapshot.value as? Bool, connected {
                 self.ref.child("users").child(user! + "/connected").setValue(true)
-                //self.ref.child("users").child(user! + "/connected").onDisconnectSetValue(false)
+                self.ref.child("users").child(user! + "/connected").onDisconnectSetValue(false)
             }
             else {
-                //self.ref.child("users").child(user! + "/connected").onDisconnectSetValue(false)
+                self.ref.child("users").child(user! + "/connected").onDisconnectSetValue(false)
             }
         })
     }
@@ -336,7 +338,8 @@ class DataService :NSObject {
         ref = FIRDatabase.database().reference()
         let user = FIRAuth.auth()?.currentUser?.uid
         let usersId = self.invitedUserIds
-        
+        //self.sendPushNotification(usersId: usersId, completion:{ _ in})
+
         if(gameKey != ""){
             self.ref.child("games").child(gameKey).removeValue()
             self.ref.child("users").child("\(self.currentGameUser[1].id!)/games/\(gameKey)").removeValue()
@@ -348,7 +351,7 @@ class DataService :NSObject {
         
         
         self.gameKey = ref.child("games").childByAutoId().key
-        let game = ["\(user!)": ["online":true , "number":1],
+        let game = ["\(user!)": ["accept":true , "number":1],
                     "\(usersId[0])": ["accept":false , "number":2],
                     "\(usersId[1])": ["accept":false , "number":3],
                     "\(usersId[2])": ["accept":false , "number":4],
@@ -361,11 +364,14 @@ class DataService :NSObject {
                 completion(false)
             }else{
                 self.gameIsOn = true
+                
 
                 self.invitedUserIds.removeAll()
                 self.currentGameUser = self.invitedUser
                 self.currentGameUser.insert(self.gameUser, at: 0)
-
+                
+                self.sendPushNotification(usersId: usersId,  completion:{ _ in})
+                
                 print("Current Game Users : \(self.currentGameUser.count)")
                 print(self.gameUser.email!)
                 for x in 0...3{
@@ -387,35 +393,91 @@ class DataService :NSObject {
             }
         }
         
-        self.gameAcceptUserCheck(usersId:usersId)
+        var addNewId = usersId
+        addNewId.insert(user!, at: 0)
+        self.gameAcceptUserCheck(usersId:addNewId)
   
     }
     
     
-    
-    
     func gameAcceptUserCheck(usersId:[String]){
         
-        var invitedUserCheck = 1
+        var gameAcceptStatus = [Any]()
+        gameAcceptStatus = [true , false ,false,false]
+        
+        var acceptCheck = 1
+        var leftCheck = 0
+        var rejectCheck = 0
+        var counter = 0
         
         for id in usersId{
             ref.child("games").child(gameKey).child("\(id)/accept").observe(FIRDataEventType.value, with: { (snapshot) in
                 
-                print("AcceptUserCheck")
+//                let key = snapshot.key
+                let snapshot = snapshot.value
+                print(id)
+                print(snapshot as? Bool)
+                print(snapshot as? String)
+                counter += 1
                 
-                let snapshot = snapshot.value as? Bool
-                if(snapshot == true){
-                    invitedUserCheck += 1
-                }else{
-                    if(invitedUserCheck > 1){
-                        invitedUserCheck -= 1
-                    }
+                
+                
+                if(snapshot as? Bool == true){
+                    let indexOf = usersId.index(of: id)
+                    gameAcceptStatus[indexOf!] = true
                 }
+                    
+                if(snapshot as? String == "reject"){
+                    let indexOf = usersId.index(of: id)
+                    gameAcceptStatus[indexOf!] = "reject"
+
+                }
+                    
+                if(snapshot as? String == "left"){
+                    let indexOf = usersId.index(of: id)
+                    gameAcceptStatus[indexOf!] = "left"
+                    
+                }
+                    
+//                else{
+//                    print("Not Yet : \(acceptCheck)")
+//                    let indexOf = usersId.index(of: id)
+//                    gameAcceptStatus[indexOf!] = false
+//                }
                 
-                if(invitedUserCheck == 4){
-                    print("All Users Accepted Game. Let the game begin")
-                    let gameNotification  = Notification.Name("gameNotification")
-                    NotificationCenter.default.post(name: gameNotification, object: nil)
+                
+                print(gameAcceptStatus)
+
+                
+                
+                print("Accept : \(acceptCheck)")
+                print("Reject : \(rejectCheck)")
+                print("Left   : \(leftCheck)")
+
+
+                if(counter == 4){
+                    
+                    for x in gameAcceptStatus{
+                        
+                        if(x as? Bool == true){
+                            acceptCheck += 1
+                        }
+                        if(String(describing: x) == "reject"){
+                            rejectCheck += 1
+                        }
+                        if(String(describing: x) == "left"){
+                            leftCheck += 1
+                        }
+                        
+                    }
+                    
+                    if(acceptCheck == 4){
+                        print("All Users Accepted Game. Let the game begin")
+                        let gameNotification  = Notification.Name("gameNotification")
+                        NotificationCenter.default.post(name: gameNotification, object: nil)
+                    }
+                    
+
                 }
                 
                 
@@ -425,6 +487,44 @@ class DataService :NSObject {
         }
     }
     
+    
+    
+    
+    
+    
+    
+//    func gameAcceptUserCheck(usersId:[String]){
+//        
+//        var gameUserStatus = [String:Any]()
+//        var invitedUserCheck = 1
+//        
+//        for id in usersId{
+//            ref.child("games").child(gameKey).child("\(id)/accept").observe(FIRDataEventType.value, with: { (snapshot) in
+//                
+//                print("AcceptUserCheck")
+//                
+//                let snapshot = snapshot.value as? Bool
+//                if(snapshot == true){
+//                    invitedUserCheck += 1
+//                }else{
+//                    if(invitedUserCheck > 1){
+//                        invitedUserCheck -= 1
+//                    }
+//                }
+//                
+//                if(invitedUserCheck == 4){
+//                    print("All Users Accepted Game. Let the game begin")
+//                    let gameNotification  = Notification.Name("gameNotification")
+//                    NotificationCenter.default.post(name: gameNotification, object: nil)
+//                }
+//                
+//                
+//            }) { (error) in
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+//    
 
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
@@ -432,26 +532,30 @@ class DataService :NSObject {
     
     
     func checkInvitations(){
-        
+//        var checkIsBusy = false
+//        var checkCounter = 0
+//        
         let user = FIRAuth.auth()?.currentUser?.uid
         var invitedGameUser = [User]()
         invitedGameUser = [self.gameUser ,self.gameUser ,self.gameUser , self.gameUser]
-
-            ref.child("users").child("\(user!)/games").observe(FIRDataEventType.value, with: { (snapshot) in
+        
+        
+        print("Check Invitation Observer")
+        
+        
+            ref.child("users").child("\(user!)/games").observe(.value, with: { (snapshot) in
                 self.gameInvitations.removeAll()
                 if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot]{
-                    for snap in snapshots{
+
+                     for snap in snapshots{
                         if(snap.value as! Bool == true){
                         self.ref.child("games").child(snap.key).observeSingleEvent(of: .value, with: { (snapshot) in
                              let snapshot = JSON(snapshot.value!)
-                             print("Main key : \(snap.key)")
                              var keys = [String]()
                             
                             
                              for id in snapshot{
                                 keys.append(id.0)
-                                print(id.0)
-                    
                                 if(id.0 != "owner"){
                                     if(id.1["number"] == 1){
                                         if let user =  self.users.filter({$0.id! == id.0}).first{
@@ -491,19 +595,21 @@ class DataService :NSObject {
   
                              }
 
-                            let ownerName = invitedGameUser[0].name
-                            let id = snap.key
-                            let game = GameInvite(ownerName: ownerName!, id: id, gamers: invitedGameUser)
-                            self.gameInvitations.append(game)
-                            print("game Invitations \(self.gameInvitations.count)")
-                            let gameInvitationNotification  = Notification.Name("gameInvitationNotification")
-                            NotificationCenter.default.post(name: gameInvitationNotification, object: nil)
-                            
-                            
+                            let checkInviteInArray = self.gameInvitations.contains{ $0.id == snap.key}
+                            if(checkInviteInArray == false){
+                                let ownerName = invitedGameUser[0].name
+                                let id = snap.key
+                                let game = GameInvite(ownerName: ownerName!, id: id, gamers: invitedGameUser)
+                                self.gameInvitations.append(game)
+                               // print("game Invitations \(self.gameInvitations.count)")
+                                let gameInvitationNotification  = Notification.Name("gameInvitationNotification")
+                                NotificationCenter.default.post(name: gameInvitationNotification, object: nil)
+                            }
                         })
-                    }
+                        }else{
+                            
+                        }
                 }
-    
             }
             })
             { (error) in
@@ -533,9 +639,51 @@ class DataService :NSObject {
         self.currentGameUser.append(game.playerTwo!)
         self.currentGameUser.append(game.playerThree!)
         completion(true)
-
-    
     }
+    
+    
+    
+    func acceptGameInvitation(usersId:[String] , gameId:String , completion:(Bool) -> Void){
+        print("Accept Game Invitation")
+        print(gameId)
+        print(self.gameUser.id!)
+        self.ref.child("games").child("\(gameId)/\(self.gameUser.id!)").child("accept").setValue(true)
+        self.ref.child("users").child("\(self.gameUser.id!)/games/\(gameId)/").setValue(false)
+        self.gameKey = gameId
+        self.gameAcceptUserCheck(usersId: usersId)
+        print(usersId)
+        completion(true)
+    }
+    
+    
+    
+    
+    
+    
+    
+    func getUsersData(usersId:[String] ,  completion:@escaping (Bool) -> Void){
+        
+        var gameUsers = [User]()
+        gameUsers = [self.gameUser ,self.gameUser ,self.gameUser , self.gameUser]
+        var usersCount = 0
+        
+        for id in usersId{
+             self.ref.child("users").child(id).observeSingleEvent(of: .value, with: {
+                (snapshot) in
+                let user = User(userObject: JSON(snapshot.value!) , id:snapshot.key)
+                let indexOf = usersId.index(of: id)
+                gameUsers[indexOf!] = user
+                usersCount += 1
+                if(usersCount == 4){
+                    self.currentGameUser = gameUsers
+                    completion(true)
+                }
+             
+             })
+        }
+    }
+    
+    
     
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
@@ -580,4 +728,83 @@ class DataService :NSObject {
             }
         
     }
+    
+    
+    
+    func setDeviceToken(){
+        let user = FIRAuth.auth()?.currentUser?.uid
+        OneSignal.idsAvailable({(_ userId, _ pushToken) in
+            print("UserId:\(userId)")
+            if pushToken != nil {
+                print("pushToken:\(pushToken)")
+                self.ref.child("users").child(user!).child("deviceToken").setValue(userId)
+            }
+        })
+
+    }
+
+
+    
+    
+    func sendPushNotification(usersId:[String] ,completion: @escaping (Bool)->Void){
+        print("Send Push Notification")
+        print(usersId.count)
+        print(usersId)
+
+        var counter = 3
+        var deviceToken = [String]()
+        for id in usersId{
+            self.ref.child("users").child(id).child("deviceToken").observeSingleEvent(of: .value, with: { (snapshot) in
+                counter -= 1
+                let token = snapshot.value
+                print("Push Ids")
+                if(snapshot.exists()){
+                    print(snapshot.value!)
+                    deviceToken.append(token! as! String)
+                }
+                
+                if(counter == 0){
+                    print("Sending to OneSignal")
+                    print(deviceToken)
+                    self.sendOneSignalNotification(deviceToken: deviceToken ,  currentGameUser: self.currentGameUser)
+                    completion(true)
+
+                }
+                
+            })
+        }
+    }
+    
+    
+    func sendOneSignalNotification(deviceToken:[String] , currentGameUser:[User]){
+        
+        print("Send to OneSignal")
+        print(deviceToken)
+        let parameters: Parameters = [
+            "app_id": "bd3a791f-1577-4449-86c4-096a0317f00b",
+            "content_available":1,
+            "include_player_ids": ["8cd420c9-2be9-4200-8860-3e484a371e63"],
+            "data": [
+                     "gameId" : self.gameKey,
+                     "playerOne"    : self.currentGameUser[0].id,
+                     "playerTwo"    : self.currentGameUser[1].id,
+                     "playerThree"  : self.currentGameUser[2].id,
+                     "playerFour"   : self.currentGameUser[3].id,
+                     "senderName"   : self.currentGameUser[0].name
+
+            ],
+            "contents": ["en": self.currentGameUser[0].name! + " has sent you a game invite"]
+        ]
+        Alamofire.request("https://onesignal.com/api/v1/notifications", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+            
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+            }
+        }
+    
+    }
+    
+    
+    
+    
 }

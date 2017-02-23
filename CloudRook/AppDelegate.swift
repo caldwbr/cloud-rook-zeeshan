@@ -12,16 +12,63 @@ import Firebase
 import FirebaseAuth
 import GoogleSignIn
 import FBSDKLoginKit
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var notificationData : [String:String]?
+    var notificationAvailable:Bool?
+    var ref: FIRDatabaseReference!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FIRApp.configure()
+        
+        
+        OneSignal.initWithLaunchOptions(launchOptions, appId: "bd3a791f-1577-4449-86c4-096a0317f00b", handleNotificationReceived: { (notification) in
+            print("^Received Notification - \(notification?.payload.notificationID)")
+        },  handleNotificationAction: { (result) in
+            let payload: OSNotificationPayload? = result?.notification.payload
+            
+            var fullMessage: String? = payload?.body
+            if payload?.additionalData != nil {
+                var additionalData: [AnyHashable: Any]? = payload?.additionalData
+                if additionalData!["actionSelected"] != nil {
+                    //fullMessage = fullMessage! + "\nPressed ButtonId:\(additionalData!["actionSelected"])"
+                    
+                }
+            }
+            (self.window?.rootViewController as! UITabBarController).selectedIndex = 0
+            
+            let gameId = result!.notification.payload.additionalData["gameId"]!
+            let playerOne = result!.notification.payload.additionalData["playerOne"]!
+            let playerTwo = result!.notification.payload.additionalData["playerTwo"]!
+            let playerThree = result!.notification.payload.additionalData["playerThree"]!
+            let playerFour = result!.notification.payload.additionalData["playerFour"]!
+            let senderName = result!.notification.payload.additionalData["senderName"]!
+
+            
+            self.notificationData = [:]
+            self.notificationData?["gameId"] = gameId as? String
+            self.notificationData?["playerOne"] = playerOne as? String
+            self.notificationData?["playerTwo"] = playerTwo as? String
+            self.notificationData?["playerThree"] = playerThree as? String
+            self.notificationData?["playerFour"] = playerFour as? String
+            self.notificationData?["senderName"] = senderName as? String
+
+            
+            let gameInvitationReceived  =   Notification.Name("gameInvitationReceived")
+            NotificationCenter.default.post(name: gameInvitationReceived, object: nil)
+            self.notificationAvailable =  true
+
+
+        }, settings: [kOSSettingsKeyAutoPrompt : true ,
+                      kOSSettingsKeyInFocusDisplayOption:false])
+
+        
+        
         application.isStatusBarHidden = true
         return true
     }
@@ -29,11 +76,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        let user = FIRAuth.auth()?.currentUser?.uid
+        if(user != nil){
+            DataService.ds.ref.child("users").child(user! + "/connected").setValue(false)
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        let user = FIRAuth.auth()?.currentUser?.uid
+        if(user != nil){
+            DataService.ds.ref.child("users").child(user! + "/connected").setValue(false)
+        }
+
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -104,6 +160,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
 //        }
 //    }
+    
+    
+    
+
+    
 
 }
 

@@ -28,6 +28,9 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
 
     let ds = DataService.ds
     let notificationName  =   Notification.Name("gameUserOnlineNotification")
+    let gameInvitationReceived  =   Notification.Name("gameInvitationReceived")
+
+    
     var selectInvite = false
     var imageDownloaded = false
     @IBOutlet weak var profilePic: UIImageView!
@@ -42,6 +45,8 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     @IBOutlet weak var cardTable: UIImageView!
     @IBOutlet weak var leaveGame: UIButton!
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     
     
     override func viewDidLoad() {
@@ -53,15 +58,46 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
             self.downloadFriendsList()
             self.ds.loadAllLists()
             self.ds.checkIfConnected()
-            self.ds.checkInvitations()
             self.ds.createGameUser()
+            self.ds.setDeviceToken()
+            print("Check Inviations")
+            self.ds.checkInvitations()
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.gameInvitationReceivedReceived), name: gameInvitationReceived, object: nil)
+            
+            if(appDelegate.notificationAvailable == true){
+                 self.gameInvitationReceivedReceived()
+            }
+
         }
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func invitationAccepted(game : GameInvite){
+    
+    func gameInvitationReceivedReceived(){
         
+        let senderName = self.appDelegate.notificationData?["senderName"]!
+        let alert = UIAlertController(title: "Game Invitation", message: "\(senderName!) has sent you a game request. Do you want to accept it?", preferredStyle:UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: {
+            _ in
+            self.ds.gameIsOn = true
+            self.invitationAccepted(notification : self.appDelegate.notificationData!)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: {
+            _ in
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+        print(appDelegate.notificationData!)
+        
+    }
+    
+    
+    
+    func invitationAccepted(game : GameInvite){
         var usersId = [String]()
         usersId.append((game.owner?.id!)!)
         usersId.append((game.playerOne?.id!)!)
@@ -75,6 +111,29 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         }
     }
     
+    
+    func invitationAccepted(notification:[String:String]){
+        
+        var usersId = [String]()
+        usersId.append(notification["playerOne"]!)
+        usersId.append(notification["playerTwo"]!)
+        usersId.append(notification["playerThree"]!)
+        usersId.append(notification["playerFour"]!)
+        print("\nUser ID")
+        print(usersId)
+        
+        let gameId = notification["gameId"]!
+        self.ds.getUsersData(usersId: usersId){ response in
+            self.ds.acceptGameInvitation(usersId:usersId , gameId:gameId){
+                response in
+                self.checkGame()
+                self.selectInvite = false
+            }
+        }
+        
+    }
+    
+    
     @IBAction func leaveGame(_ sender: UIButton) {
         self.ds.leaveGame(){
             response in
@@ -87,9 +146,8 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     }
     
     
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: notificationName, object: nil);
     }
     
@@ -305,16 +363,19 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         }else {
             self.downloadFriendsList()
             self.ds.loadAllLists()
+            print("Check Inviations - 2")
             self.ds.checkInvitations()
             if let unwrappedUrl = user?.photoURL {
                 self.ref.child("users").child((user?.uid)!).updateChildValues(["username": (user?.displayName!)!, "pic": String(describing: unwrappedUrl) as Any, "email": (user?.email!)!]){
                     response in
                     self.ds.checkIfConnected()
+                    self.ds.setDeviceToken()
                 }
             }else {
                 self.ref.child("users").child((user?.uid)!).updateChildValues(["username": (user?.displayName!)!, "pic": "nil", "email": (user?.email!)!]){
                     response in
                     self.ds.checkIfConnected()
+                    self.ds.setDeviceToken()
                 }
             }
             
@@ -386,6 +447,10 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         }
     }
 
+    
+    
+    
+    
 
 }
 

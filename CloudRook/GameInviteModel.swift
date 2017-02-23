@@ -30,11 +30,11 @@ class GameInvite {
         self.playerTwo   = gamers[2]
         self.playerThree = gamers[3]
         
-        print("Init Players")
-        print(self.owner!.id!)
-        print(self.playerOne!.id!)
-        print(self.playerTwo!.id!)
-        print(self.playerThree!.id!)
+        //print("Init Players")
+//        print(self.owner!.id!)
+//        print(self.playerOne!.id!)
+//        print(self.playerTwo!.id!)
+//        print(self.playerThree!.id!)
 
     }
 
