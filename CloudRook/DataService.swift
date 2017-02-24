@@ -37,6 +37,7 @@ class DataService :NSObject {
     
     private var currentGameUser = [User]()  // Current game users
     private var gameInvitations = [GameInvite]() // Game invites sent to you
+    private var gameAcceptStatus = [Any]()
 
 
     
@@ -48,8 +49,7 @@ class DataService :NSObject {
         self.gameUser.name = user?.displayName
     }
     
-    
-    
+
     var getFriends:[User]{return allFriends }
     
     var getPendingFriends:[User]{return pendingFriends}
@@ -69,7 +69,7 @@ class DataService :NSObject {
     
     var getCurrentGameUser:[User]{return currentGameUser}
     
-    
+    var getGameAcceptStatus:[Any]{return gameAcceptStatus}
     //------------------------------------------------------------------------
     
     
@@ -111,7 +111,6 @@ class DataService :NSObject {
     
 
     func addFriend(userId:String , friend:User , completion:@escaping (Bool) -> Void){
-        ref = FIRDatabase.database().reference()
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if !snapshot.exists(){
@@ -134,7 +133,6 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     func removeFriendFromPendingList(userId:String , friend:User , completion:@escaping (Bool) -> Void){
-        ref = FIRDatabase.database().reference()
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             //print(snapshot.value as! Bool)
             if (snapshot.exists() && snapshot.value as! Bool == false){
@@ -160,7 +158,6 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     func removeFriendFromFriendList(userId:String , friend:User , completion:@escaping (Bool) -> Void){
-        ref = FIRDatabase.database().reference()
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
 //            print(snapshot.value as! Bool)
             if (snapshot.exists() && snapshot.value as! Bool == true){
@@ -189,7 +186,6 @@ class DataService :NSObject {
     func loadAllLists(){
         
         let userId = FIRAuth.auth()?.currentUser?.uid
-        ref = FIRDatabase.database().reference()
         var counter = 0
         
         
@@ -242,7 +238,7 @@ class DataService :NSObject {
     
     
     func confirmFriend(userId:String , friend:User , completion:@escaping (Bool) -> Void){
-        ref = FIRDatabase.database().reference()
+//        ref = FIRDatabase.database().reference()
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             if (snapshot.exists() && snapshot.value as! String == "request"){
                 self.ref.child("users/\(userId)/friends/\(friend.id!)").setValue(true)
@@ -290,7 +286,7 @@ class DataService :NSObject {
 
         self.onlineUsers.removeAll()
         var loadAll = loadAll
-        ref = FIRDatabase.database().reference()
+//        ref = FIRDatabase.database().reference()
         var counter = 0
         for user in users{
             ref.child("users").child(user.id!+"/connected").observe(FIRDataEventType.value, with: { (snapshot) in
@@ -335,7 +331,7 @@ class DataService :NSObject {
     
     func sendGameInvitation(completion:@escaping (Bool) -> Void){
         
-        ref = FIRDatabase.database().reference()
+//        ref = FIRDatabase.database().reference()
         let user = FIRAuth.auth()?.currentUser?.uid
         let usersId = self.invitedUserIds
         //self.sendPushNotification(usersId: usersId, completion:{ _ in})
@@ -402,81 +398,41 @@ class DataService :NSObject {
     
     func gameAcceptUserCheck(usersId:[String]){
         
-        var gameAcceptStatus = [Any]()
         gameAcceptStatus = [true , false ,false,false]
-        
-        var acceptCheck = 1
-        var leftCheck = 0
-        var rejectCheck = 0
+
         var counter = 0
         
         for id in usersId{
-            ref.child("games").child(gameKey).child("\(id)/accept").observe(FIRDataEventType.value, with: { (snapshot) in
-                
-//                let key = snapshot.key
-                let snapshot = snapshot.value
-                print(id)
-                print(snapshot as? Bool)
-                print(snapshot as? String)
-                counter += 1
-                
-                
-                
+            self.ref.child("games").child(gameKey).child("\(id)/accept").observe(FIRDataEventType.value, with: { (snapshot) in
+                                let snapshot = snapshot.value
+                if(counter < 4){
+                    counter += 1
+                }
                 if(snapshot as? Bool == true){
                     let indexOf = usersId.index(of: id)
-                    gameAcceptStatus[indexOf!] = true
+                    self.gameAcceptStatus[indexOf!] = true
                 }
+                
+                if let text = snapshot as? String{
+                    if(text == "reject"){
+                        let indexOf = usersId.index(of: id)
+                        self.gameAcceptStatus[indexOf!] = "reject"
+                        
+                    }
                     
-                if(snapshot as? String == "reject"){
-                    let indexOf = usersId.index(of: id)
-                    gameAcceptStatus[indexOf!] = "reject"
-
+                    if(text == "left"){
+                        let indexOf = usersId.index(of: id)
+                        self.gameAcceptStatus[indexOf!] = "left"
+                        
+                    }
                 }
-                    
-                if(snapshot as? String == "left"){
-                    let indexOf = usersId.index(of: id)
-                    gameAcceptStatus[indexOf!] = "left"
-                    
-                }
-                    
-//                else{
-//                    print("Not Yet : \(acceptCheck)")
-//                    let indexOf = usersId.index(of: id)
-//                    gameAcceptStatus[indexOf!] = false
-//                }
-                
-                
-                print(gameAcceptStatus)
 
-                
-                
-                print("Accept : \(acceptCheck)")
-                print("Reject : \(rejectCheck)")
-                print("Left   : \(leftCheck)")
-
-
+                print(self.gameAcceptStatus)
+                print(counter)
                 if(counter == 4){
-                    
-                    for x in gameAcceptStatus{
-                        
-                        if(x as? Bool == true){
-                            acceptCheck += 1
-                        }
-                        if(String(describing: x) == "reject"){
-                            rejectCheck += 1
-                        }
-                        if(String(describing: x) == "left"){
-                            leftCheck += 1
-                        }
-                        
-                    }
-                    
-                    if(acceptCheck == 4){
-                        print("All Users Accepted Game. Let the game begin")
-                        let gameNotification  = Notification.Name("gameNotification")
-                        NotificationCenter.default.post(name: gameNotification, object: nil)
-                    }
-                    
+                    print("Check Game Status")
+                    let gameStatusNotification  = Notification.Name("gameStatusNotification")
+                    NotificationCenter.default.post(name: gameStatusNotification, object: nil)
 
                 }
                 
@@ -487,44 +443,6 @@ class DataService :NSObject {
         }
     }
     
-    
-    
-    
-    
-    
-    
-//    func gameAcceptUserCheck(usersId:[String]){
-//        
-//        var gameUserStatus = [String:Any]()
-//        var invitedUserCheck = 1
-//        
-//        for id in usersId{
-//            ref.child("games").child(gameKey).child("\(id)/accept").observe(FIRDataEventType.value, with: { (snapshot) in
-//                
-//                print("AcceptUserCheck")
-//                
-//                let snapshot = snapshot.value as? Bool
-//                if(snapshot == true){
-//                    invitedUserCheck += 1
-//                }else{
-//                    if(invitedUserCheck > 1){
-//                        invitedUserCheck -= 1
-//                    }
-//                }
-//                
-//                if(invitedUserCheck == 4){
-//                    print("All Users Accepted Game. Let the game begin")
-//                    let gameNotification  = Notification.Name("gameNotification")
-//                    NotificationCenter.default.post(name: gameNotification, object: nil)
-//                }
-//                
-//                
-//            }) { (error) in
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-//    
 
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
@@ -624,7 +542,7 @@ class DataService :NSObject {
     
     
     func acceptGameInvitation(usersId:[String] , game:GameInvite , completion:(Bool) -> Void){
-        print("Accept Game Invitation")
+        print("Accept Game Invitation-1")
         print(game.id!)
         print(self.gameUser.id!)
         self.ref.child("games").child("\(game.id!)/\(self.gameUser.id!)").child("accept").setValue(true)
@@ -644,7 +562,7 @@ class DataService :NSObject {
     
     
     func acceptGameInvitation(usersId:[String] , gameId:String , completion:(Bool) -> Void){
-        print("Accept Game Invitation")
+        print("Accept Game Invitation-2")
         print(gameId)
         print(self.gameUser.id!)
         self.ref.child("games").child("\(gameId)/\(self.gameUser.id!)").child("accept").setValue(true)
@@ -656,7 +574,10 @@ class DataService :NSObject {
     }
     
     
-    
+    func rejectGameInvitation(gameId:String){
+        self.ref.child("games").child("\(gameId)/\(self.gameUser.id!)").child("accept").setValue("reject")
+        self.ref.child("users").child("\(self.gameUser.id!)/games/\(gameId)/").removeValue()
+    }
     
     
     
@@ -690,14 +611,22 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     func leaveGame(completion:(Bool)->Void){
-        
         if(self.gameUser.id == self.currentGameUser[0].id!){
+            print("Leave Game - 1")
             self.ref.child("games").child(gameKey).removeValue()
             self.ref.child("users").child("\(self.currentGameUser[1].id!)/games/\(gameKey)").removeValue()
             self.ref.child("users").child("\(self.currentGameUser[2].id!)/games/\(gameKey)").removeValue()
             self.ref.child("users").child("\(self.currentGameUser[3].id!)/games/\(gameKey)").removeValue()
         }else{
-            self.ref.child("games").child(gameKey).child("\(self.gameUser.id!)/accept").setValue(false)
+            print("Leave Game - 2")
+            self.ref.child("games").child(gameKey).removeAllObservers()
+            
+            self.ref.child("games").child(gameKey).child("\(self.gameUser.id!)/accept").setValue("left")
+            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[0].id!)/accept").removeAllObservers()
+            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[1].id!)/accept").removeAllObservers()
+            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[2].id!)/accept").removeAllObservers()
+            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[3].id!)/accept").removeAllObservers()
+
         }
         self.gameIsOn = false
         self.currentGameUser.removeAll()
@@ -708,12 +637,25 @@ class DataService :NSObject {
     
     
     
-    func watchGameAvailability(){
-        
+    func watchGameAvailability(gameId:String , completion:@escaping (Bool) -> Void){
+
+        ref.child("games").child(gameId).observe(FIRDataEventType.value, with: { (snapshot) in
+          
+            if(snapshot.exists()){
+                print("Game Exist")
+                completion(true)
+            }else{
+                print("No Game Exist")
+                self.ref.child("games").child(gameId).removeAllObservers()
+                let gameCanceledNotification  = Notification.Name("gameCanceledNotification")
+                NotificationCenter.default.post(name: gameCanceledNotification, object: nil,userInfo: nil)
+            }
+            
+        }){ (error) in
+            print(error.localizedDescription)
+        }
     
     }
-    
-    
     
     
     func imageDownload(url:NSURL , completion:@escaping (UIImage) -> Void){

@@ -98,6 +98,9 @@ class GameInviteList: UITableViewController {
             
             alert.addAction(UIAlertAction(title: "NO", style: UIAlertActionStyle.default, handler: {
                 response in
+                self.ds.rejectGameInvitation(gameId:game.id!)
+                self.gameInvites = self.gameInvites.filter{$0.id != game.id!}
+                self.tableView.reloadData()
             }))
         
         self.present(alert, animated: true, completion: nil)

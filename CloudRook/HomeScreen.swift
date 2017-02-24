@@ -27,8 +27,12 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     var authUI: FUIAuth?
 
     let ds = DataService.ds
-    let notificationName  =   Notification.Name("gameUserOnlineNotification")
+    
+    let gameUserOnlineNotification  =   Notification.Name("gameUserOnlineNotification")
     let gameInvitationReceived  =   Notification.Name("gameInvitationReceived")
+    let gameStatusNotification  = Notification.Name("gameStatusNotification")
+    let gameCanceledNotification  = Notification.Name("gameCanceledNotification")
+    let gameInvitationNotification  =   Notification.Name("gameInvitationNotification")
 
     
     var selectInvite = false
@@ -44,14 +48,26 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     @IBOutlet weak var player4ProfilePic: UIImageView!
     @IBOutlet weak var cardTable: UIImageView!
     @IBOutlet weak var leaveGame: UIButton!
+    @IBOutlet weak var notification: UIBarButtonItem!
+    
+    
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    
+    
+    @IBOutlet weak var statusOne: UILabel!
+    @IBOutlet weak var statusTwo: UILabel!
+    @IBOutlet weak var statusThree: UILabel!
+    @IBOutlet weak var statusFour: UILabel!
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.ds.ref = FIRDatabase.database().reference()
+
         checkLoggedIn()
         if(FIRAuth.auth()?.currentUser != nil){
             print("Download Friends")
@@ -65,6 +81,11 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
             
             NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.gameInvitationReceivedReceived), name: gameInvitationReceived, object: nil)
             
+            NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.gameNonAvailability), name: gameCanceledNotification, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.notificationIcon), name: gameInvitationNotification, object: nil)
+            
+            
             if(appDelegate.notificationAvailable == true){
                  self.gameInvitationReceivedReceived()
             }
@@ -72,6 +93,18 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         }
         
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    
+    
+    func notificationIcon(){
+        
+        print("Notification Icon")
+        if(self.ds.getGameInvitations.count > 0){
+            self.notification.tintColor = UIColor.red
+        }else{
+            self.notification.tintColor = UIColor.lightGray
+        }
     }
     
     
@@ -88,11 +121,31 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: {
             _ in
+            self.ds.rejectGameInvitation(gameId: (self.appDelegate.notificationData?["gameId"]!)!)
+            
         }))
         
         self.present(alert, animated: true, completion: nil)
         print(appDelegate.notificationData!)
         
+    }
+    
+    
+    func gameNonAvailability(){
+        let alert = UIAlertController(title: "Game", message: "The game you are trying to play is not available anymore. The game owner left the game", preferredStyle:UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+            _ in
+            self.ds.leaveGame(){
+                response in
+                self.leaveGame.setTitle("",for: .normal)
+                self.leaveGame.isEnabled = false
+                self.imageDownloaded = false
+                self.checkGame()
+            }
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -104,10 +157,17 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         usersId.append((game.playerTwo?.id!)!)
         usersId.append((game.playerThree?.id!)!)
         
-        self.ds.acceptGameInvitation(usersId:usersId , game:game){
+        
+        
+        self.ds.watchGameAvailability(gameId: game.id!){
             response in
-            self.checkGame()
-            self.selectInvite = false
+            if(response == true){
+                self.ds.acceptGameInvitation(usersId:usersId , game:game){
+                    response in
+                    self.checkGame()
+                    self.selectInvite = false
+                }
+            }
         }
     }
     
@@ -123,13 +183,21 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         print(usersId)
         
         let gameId = notification["gameId"]!
-        self.ds.getUsersData(usersId: usersId){ response in
-            self.ds.acceptGameInvitation(usersId:usersId , gameId:gameId){
-                response in
-                self.checkGame()
-                self.selectInvite = false
+        
+        self.ds.watchGameAvailability(gameId: gameId){
+            response in
+            if(response == true){
+                self.ds.getUsersData(usersId: usersId){ response in
+                    self.ds.acceptGameInvitation(usersId:usersId , gameId:gameId){
+                        response in
+                        self.checkGame()
+                        self.selectInvite = false
+                    }
+                }
             }
         }
+        
+
         
     }
     
@@ -148,7 +216,9 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: notificationName, object: nil);
+        NotificationCenter.default.removeObserver(self, name: gameUserOnlineNotification, object: nil);
+        NotificationCenter.default.removeObserver(self, name: gameStatusNotification, object: nil);
+        self.notification.tintColor = UIColor.lightGray
     }
     
     
@@ -158,8 +228,12 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
             self.ds.createGameUser()
         }
         self.checkGame()
+        self.gameStatus()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.checkGame), name: notificationName, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.gameStatus), name: gameStatusNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeScreen.checkGame), name: gameUserOnlineNotification, object: nil)
         
         if(self.ds.gameIsOn == true){
             self.leaveGame.isEnabled = true
@@ -174,6 +248,125 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         
     }
     
+    
+    
+    func gameStatus(){
+    
+        let gas = self.ds.getGameAcceptStatus
+        var acceptCheck = 0
+        var leftCheck = 0
+        var rejectCheck = 0
+        
+        
+        if(self.ds.gameIsOn == true && self.ds.getCurrentGameUser.count != 0){
+           
+            for (index, x) in gas.enumerated(){
+                
+                if(x as? Bool == false){
+                    if(index == 0){
+                        self.statusOne.text = "Waiting"
+                        self.statusOne.textColor = UIColor.black
+                    }
+                    if(index == 1){
+                        self.statusTwo.text = "Waiting"
+                        self.statusTwo.textColor = UIColor.black
+                    }
+                    if(index == 2){
+                        self.statusThree.text = "Waiting"
+                        self.statusThree.textColor = UIColor.black
+                    }
+                    if(index == 3){
+                        self.statusFour.text = "Waiting"
+                        self.statusFour.textColor = UIColor.black
+                    }
+                }
+                
+                
+                if(x as? Bool == true){
+                    acceptCheck += 1
+                    if(index == 0){
+                        self.statusOne.text = "In Game"
+                        self.statusOne.textColor = UIColor.blue
+                    }
+                    if(index == 1){
+                        self.statusTwo.text = "In Game"
+                        self.statusTwo.textColor = UIColor.blue
+                    }
+                    if(index == 2){
+                        self.statusThree.text = "In Game"
+                        self.statusThree.textColor = UIColor.blue
+                    }
+                    if(index == 3){
+                        self.statusFour.text = "In Game"
+                        self.statusFour.textColor = UIColor.blue
+                    }
+                }
+                
+                if(String(describing: x) == "reject"){
+                    rejectCheck += 1
+                    if(index == 0){
+                        self.statusOne.text = "Rejected"
+                        self.statusOne.textColor = UIColor.brown
+                    }
+                    if(index == 1){
+                        self.statusTwo.text = "Rejected"
+                        self.statusTwo.textColor = UIColor.brown
+                    }
+                    if(index == 2){
+                        self.statusThree.text = "Rejected"
+                        self.statusThree.textColor = UIColor.brown
+                    }
+                    if(index == 3){
+                        self.statusFour.text = "Rejected"
+                        self.statusFour.textColor = UIColor.brown
+                    }
+                }
+                
+                if(String(describing: x) == "left"){
+                    leftCheck += 1
+                    if(index == 0){
+                        self.statusOne.text = "Left Game"
+                        self.statusOne.textColor = UIColor.red
+                    }
+                    if(index == 1){
+                        self.statusTwo.text = "Left Game"
+                        self.statusTwo.textColor = UIColor.red
+                    }
+                    if(index == 2){
+                        self.statusThree.text = "Left Game"
+                        self.statusThree.textColor = UIColor.red
+                    }
+                    if(index == 3){
+                        self.statusFour.text = "Left Game"
+                        self.statusFour.textColor = UIColor.red
+                    }
+                }
+                
+            }
+            
+            if(acceptCheck == 4){
+                print("Play Game")
+            }else if(rejectCheck > 0 || leftCheck > 0){
+                 print("Player Rejected or Left the Game")
+            }
+            
+            
+            acceptCheck = 0
+            rejectCheck = 0
+            leftCheck = 0
+            
+        
+        }else{
+            self.statusOne.text = ""
+            self.statusOne.textColor = UIColor.black
+            self.statusTwo.text = ""
+            self.statusTwo.textColor = UIColor.black
+            self.statusThree.text = ""
+            self.statusThree.textColor = UIColor.black
+            self.statusFour.text = ""
+            self.statusFour.textColor = UIColor.black
+        }
+    }
     
     
     
@@ -404,7 +597,7 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
         
         if segue.identifier == "userList"{
             let userList = segue.destination as! AllUserList
-            userList.users = self.ds.users
+            userList.users = self.ds.users.filter{$0.id != self.ds.getGameUser.id}
         }
     }
     
@@ -432,13 +625,17 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
 
     
     func downloadFriendsList(){
-        let ref2 = FIRDatabase.database().reference()
-        ref2.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+        let ref = FIRDatabase.database().reference()
+        let userId = FIRAuth.auth()?.currentUser?.uid
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot]{
                 for snap in snapshots
                 {
                     let user = User(userObject: JSON(snap.value!) , id:snap.key)
-                    self.ds.users.append(user)
+                   // if(user.id != userId){
+                        self.ds.users.append(user)
+                   // }
+                    
                 }
             }
 
