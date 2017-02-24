@@ -169,6 +169,8 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
                     self.checkGame()
                     self.selectInvite = false
                 }
+            }else{
+                print("Game not available on Home screen")
             }
         }
     }
@@ -196,6 +198,8 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
                         self.selectInvite = false
                     }
                 }
+            }else{
+                print("Game not available on Home screen")
             }
         }
         

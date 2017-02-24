@@ -611,23 +611,26 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     func leaveGame(completion:(Bool)->Void){
-        if(self.gameUser.id == self.currentGameUser[0].id!){
-            print("Leave Game - 1")
-            self.ref.child("games").child(gameKey).removeValue()
-            self.ref.child("users").child("\(self.currentGameUser[1].id!)/games/\(gameKey)").removeValue()
-            self.ref.child("users").child("\(self.currentGameUser[2].id!)/games/\(gameKey)").removeValue()
-            self.ref.child("users").child("\(self.currentGameUser[3].id!)/games/\(gameKey)").removeValue()
-        }else{
-            print("Leave Game - 2")
-            self.ref.child("games").child(gameKey).removeAllObservers()
-            
-            self.ref.child("games").child(gameKey).child("\(self.gameUser.id!)/accept").setValue("left")
-            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[0].id!)/accept").removeAllObservers()
-            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[1].id!)/accept").removeAllObservers()
-            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[2].id!)/accept").removeAllObservers()
-            self.ref.child("games").child(gameKey).child("\(self.currentGameUser[3].id!)/accept").removeAllObservers()
 
+        if(self.currentGameUser.count != 0){
+            if(self.gameUser.id == self.currentGameUser[0].id!){
+                print("Leave Game - 1")
+                self.ref.child("games").child(gameKey).removeValue()
+                self.ref.child("users").child("\(self.currentGameUser[1].id!)/games/\(gameKey)").removeValue()
+                self.ref.child("users").child("\(self.currentGameUser[2].id!)/games/\(gameKey)").removeValue()
+                self.ref.child("users").child("\(self.currentGameUser[3].id!)/games/\(gameKey)").removeValue()
+            }else{
+                print("Leave Game - 2")
+                self.ref.child("games").child(gameKey).removeAllObservers()
+                
+                self.ref.child("games").child(gameKey).child("\(self.gameUser.id!)/accept").setValue("left")
+                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[0].id!)/accept").removeAllObservers()
+                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[1].id!)/accept").removeAllObservers()
+                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[2].id!)/accept").removeAllObservers()
+                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[3].id!)/accept").removeAllObservers() 
+            }
         }
+        
         self.gameIsOn = false
         self.currentGameUser.removeAll()
         self.gameKey = ""
@@ -646,7 +649,8 @@ class DataService :NSObject {
                 completion(true)
             }else{
                 print("No Game Exist")
-                self.ref.child("games").child(gameId).removeAllObservers()
+                completion(false)
+                //self.ref.child("games").child(gameId).removeAllObservers()
                 let gameCanceledNotification  = Notification.Name("gameCanceledNotification")
                 NotificationCenter.default.post(name: gameCanceledNotification, object: nil,userInfo: nil)
             }
