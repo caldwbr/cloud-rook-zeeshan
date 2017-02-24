@@ -117,11 +117,13 @@ class HomeScreen: UIViewController, FUIAuthDelegate ,  AcceptInviteDelegate {
             _ in
             self.ds.gameIsOn = true
             self.invitationAccepted(notification : self.appDelegate.notificationData!)
+            self.notification.tintColor = UIColor.lightGray
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: {
             _ in
             self.ds.rejectGameInvitation(gameId: (self.appDelegate.notificationData?["gameId"]!)!)
+            self.notification.tintColor = UIColor.lightGray
             
         }))
         
