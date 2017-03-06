@@ -41,6 +41,8 @@ class DataService :NSObject {
 
 
     
+    
+    // Game user is the current user of the application
     func createGameUser(){
         let user = FIRAuth.auth()?.currentUser
         self.gameUser.id = user?.uid
@@ -49,42 +51,53 @@ class DataService :NSObject {
         self.gameUser.name = user?.displayName
     }
     
-
+    // Return all friends
     var getFriends:[User]{return allFriends }
     
+    // Return all pending requests sent by user
     var getPendingFriends:[User]{return pendingFriends}
     
+    // Return all friend requests received by user
     var getFriendRequests:[User]{return friendRequests}
     
+    // Return all online users
     var getOnlineUsers:[String]{return onlineUsers}
 
 
     //------------------------------------------------------------------------
-    
+    // Return all the users invited to a game
     var getInvitedUser:[User]{return invitedUser}
     
+    // Return the game user which is "self" or current user of the app.
     var getGameUser:User{return self.gameUser}
     
+    // Return all the game invitations received by a user
     var getGameInvitations:[GameInvite]{return self.gameInvitations}
     
+    // Return all the game users that are playing a game. 4 Users in total
     var getCurrentGameUser:[User]{return currentGameUser}
     
+    // Return the game accept status of all the game users
     var getGameAcceptStatus:[Any]{return gameAcceptStatus}
     //------------------------------------------------------------------------
     
-    
+    // Remove all the invited users once the invitation has been sent
     func removeInvitedUser(){self.invitedUser.removeAll() }
     
+    // Add a user to Invite later when the invitation will be sent
     func addInvitedUser(user:User){self.invitedUser.append(user)}
     
+    // Remove a user from invitation list before the invitation is sent.
     func removeInvitedUser(userId:String){
         self.invitedUser = self.invitedUser.filter{$0.id != userId}
     }
     
+    // Return all the users playing in current game.
     func removeCurrentGameUser(){
         self.currentGameUser.removeAll()
     }
     
+
     func setGamekey(){
         self.gameKey = ""
     }
@@ -93,7 +106,7 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
     
-    
+    // Check if the current user is connected or not.
     func checkIfConnected(){
         let connectedRef = FIRDatabase.database().reference(withPath: ".info/connected")
         let user = FIRAuth.auth()?.currentUser?.uid
@@ -109,7 +122,7 @@ class DataService :NSObject {
         })
     }
     
-
+    // Add a friend
     func addFriend(userId:String , friend:User , completion:@escaping (Bool) -> Void){
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -132,6 +145,8 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
     
+    
+    // Remove a Friend From Pending List
     func removeFriendFromPendingList(userId:String , friend:User , completion:@escaping (Bool) -> Void){
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             //print(snapshot.value as! Bool)
@@ -157,9 +172,9 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     //------------------------------------------------------------------------
     
+    // Remove a Friend From Friend List
     func removeFriendFromFriendList(userId:String , friend:User , completion:@escaping (Bool) -> Void){
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
-//            print(snapshot.value as! Bool)
             if (snapshot.exists() && snapshot.value as! Bool == true){
                 self.ref.child("users/\(userId)/friends/\(friend.id!)").removeValue()
                 self.ref.child("users/\(friend.id!)/friends/\(userId)").removeValue()
@@ -183,23 +198,18 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     
+    // Load all friends array and check which are in pending, approved etc at the start of the app.
     func loadAllLists(){
         
         let userId = FIRAuth.auth()?.currentUser?.uid
         var counter = 0
-        
-        
-        
-        
         ref.child("users").child(userId!+"/friends").observe(FIRDataEventType.value, with: { (snapshot) in
             self.pendingFriends.removeAll()
             self.allFriends.removeAll()
             self.friendRequests.removeAll()
             print("Started Running")
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot]{
-//                print("Friends Snapshot Count : \(snapshots.count)")
                 for snap in snapshots{
-//                    print(snap.key)
                         counter += 1
                         self.ref.child("users").child(snap.key).observeSingleEvent(of: .value, with: { (snapshot) in
                             let user = User(userObject: JSON(snapshot.value!) , id:snapshot.key)
@@ -214,7 +224,6 @@ class DataService :NSObject {
                                 }
                             }
                             else if(snap.value as! String == "request"){
-//                                print("friendRequests")
                                 self.friendRequests.append(user)
                             }
                             
@@ -237,8 +246,8 @@ class DataService :NSObject {
     //------------------------------------------------------------------------
     
     
+    // Confirm or accept a friend request sent by another user
     func confirmFriend(userId:String , friend:User , completion:@escaping (Bool) -> Void){
-//        ref = FIRDatabase.database().reference()
         ref.child("users").child(userId+"/friends/"+friend.id!).observeSingleEvent(of: .value, with: { (snapshot) in
             if (snapshot.exists() && snapshot.value as! String == "request"){
                 self.ref.child("users/\(userId)/friends/\(friend.id!)").setValue(true)
@@ -286,7 +295,6 @@ class DataService :NSObject {
 
         self.onlineUsers.removeAll()
         var loadAll = loadAll
-//        ref = FIRDatabase.database().reference()
         var counter = 0
         for user in users{
             ref.child("users").child(user.id!+"/connected").observe(FIRDataEventType.value, with: { (snapshot) in
@@ -331,10 +339,8 @@ class DataService :NSObject {
     
     func sendGameInvitation(completion:@escaping (Bool) -> Void){
         
-//        ref = FIRDatabase.database().reference()
         let user = FIRAuth.auth()?.currentUser?.uid
         let usersId = self.invitedUserIds
-        //self.sendPushNotification(usersId: usersId, completion:{ _ in})
 
         if(gameKey != ""){
             self.ref.child("games").child(gameKey).removeValue()
@@ -375,7 +381,6 @@ class DataService :NSObject {
                 }
                 
                 //self.ref.child("games").child(self.gameKey).onDisconnectRemoveValue()
-                
                 
                 self.ref.child("users").child("\(self.currentGameUser[1].id!)/games").child(self.gameKey).setValue(true)
                 self.ref.child("users").child("\(self.currentGameUser[2].id!)/games").child(self.gameKey).setValue(true)
@@ -450,9 +455,6 @@ class DataService :NSObject {
     
     
     func checkInvitations(){
-//        var checkIsBusy = false
-//        var checkCounter = 0
-//        
         let user = FIRAuth.auth()?.currentUser?.uid
         var invitedGameUser = [User]()
         invitedGameUser = [self.gameUser ,self.gameUser ,self.gameUser , self.gameUser]
@@ -627,7 +629,7 @@ class DataService :NSObject {
                 self.ref.child("games").child(gameKey).child("\(self.currentGameUser[0].id!)/accept").removeAllObservers()
                 self.ref.child("games").child(gameKey).child("\(self.currentGameUser[1].id!)/accept").removeAllObservers()
                 self.ref.child("games").child(gameKey).child("\(self.currentGameUser[2].id!)/accept").removeAllObservers()
-                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[3].id!)/accept").removeAllObservers() 
+                self.ref.child("games").child(gameKey).child("\(self.currentGameUser[3].id!)/accept").removeAllObservers()
             }
         }
         
